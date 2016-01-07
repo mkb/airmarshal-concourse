@@ -1,0 +1,72 @@
+jobs:
+- name: tests-master
+  plan:
+  - do:
+    - get: airmarshal
+      resource: git-airmarshal
+      trigger: true
+    - task: run-tests
+      config:
+        platform: linux
+        image: docker:///clutteredraisins/airmarshal-pipeline
+        inputs:
+        - { name: airmarshal }
+        run:
+          path: ./airmarshal/ci/scripts/run-tests.sh
+          args: []
+
+- name: tests-dev
+  plan:
+  - do:
+    - get: airmarshal
+      resource: git-airmarshal-dev
+      trigger: true
+    - task: run-tests
+      config:
+        platform: linux
+        image: docker:///clutteredraisins/airmarshal-pipeline
+        inputs:
+        - { name: airmarshal }
+        run:
+          path: ./air-marshal/ci/scripts/run-tests.sh
+          args: []
+        params:
+
+- name: build-task-image
+  public: true
+  serial: true
+  plan:
+  - get: git-airmarshal-concourse
+    trigger: true
+  - put: docker-image
+    params:
+      build: git-airmarshal-concourse/ci-image
+
+resources:
+- name: git-airmarshal
+  type: git
+  source:
+    uri: https://github.com/starkandwayne/airmarshal.git
+    branch: master
+
+- name: git-airmarshal-dev
+  type: git
+  source:
+    uri: https://github.com/starkandwayne/airmarshal.git
+    branch: develop
+
+- name: git-airmarshal-concourse
+  type: git
+  source:
+    uri: https://github.com/starkandwayne/airmarshal.git
+    branch: master
+    paths:
+    - ci/ci-image/*
+
+- name: docker-image
+  type: docker-image
+  source:
+    email: {{docker-hub-email}}
+    username: clutteredraisins
+    password: {{docker-hub-password}}
+    repository: clutteredraisins/airmarshal-pipeline
