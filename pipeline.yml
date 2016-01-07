@@ -28,17 +28,27 @@ jobs:
 - name: tests-dev
   plan:
   - do:
-    - get: airmarshal
-      resource: git-airmarshal-dev
-      trigger: true
+    - aggregate:
+      - get: docker-image
+        passed: [build-task-image]
+        params: {rootfs: true}
+        trigger: true
+      - get: airmarshal
+        resource: git-airmarshal-dev
+        trigger: true
+      - get: airmarshal-concourse
+        resource: git-airmarshal-concourse
+        trigger: true
     - task: run-tests
       config:
         platform: linux
         image: docker:///clutteredraisins/airmarshal-pipeline
         inputs:
         - { name: airmarshal }
+        - { name: airmarshal-concourse }
+        - { name: docker-image }
         run:
-          path: ./air-marshal/ci/scripts/run-tests.sh
+          path: ./airmarshal-concourse/scripts/run-tests
           args: []
         params:
 
@@ -46,11 +56,11 @@ jobs:
   public: true
   serial: true
   plan:
-  - get: git-airmarshal-concourse
+  - get: git-airmarshal-concourse-image
     trigger: true
   - put: docker-image
     params:
-      build: git-airmarshal-concourse/ci-image
+      build: git-airmarshal-concourse-image/ci-image
 
 resources:
 - name: git-airmarshal
@@ -66,6 +76,12 @@ resources:
     branch: develop
 
 - name: git-airmarshal-concourse
+  type: git
+  source:
+    uri: https://github.com/starkandwayne/airmarshal-concourse.git
+    branch: master
+
+- name: git-airmarshal-concourse-image
   type: git
   source:
     uri: https://github.com/starkandwayne/airmarshal-concourse.git
