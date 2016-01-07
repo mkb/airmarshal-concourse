@@ -80,6 +80,8 @@ resources:
   source:
     uri: https://github.com/starkandwayne/airmarshal-concourse.git
     branch: master
+    ignore_paths:
+    - ci-image/*
 
 - name: git-airmarshal-concourse-image
   type: git
