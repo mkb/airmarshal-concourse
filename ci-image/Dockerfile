@@ -9,4 +9,5 @@ ENV PATH /usr/local/go/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bi
 
 RUN mkdir /root/go
 ENV GOPATH /root/go
+ENV PATH=${GOPATH}/bin:$PATH
 RUN go get github.com/tools/godep
