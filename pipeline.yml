@@ -73,13 +73,14 @@ resources:
 - name: git-airmarshal-dev
   type: git
   source:
-    uri: https://github.com/starkandwayne/airmarshal.git
+    uri: git@github.com:mkb/airmarshal.git
+    private_key: {{private-key}}
     branch: develop
 
 - name: git-airmarshal-concourse
   type: git
   source:
-    uri: https://github.com/starkandwayne/airmarshal-concourse.git
+    uri: https://github.com/mkb/airmarshal-concourse.git
     branch: master
     ignore_paths:
     - ci-image/*
@@ -87,7 +88,7 @@ resources:
 - name: git-airmarshal-concourse-image
   type: git
   source:
-    uri: https://github.com/starkandwayne/airmarshal-concourse.git
+    uri: https://github.com/mkb/airmarshal-concourse.git
     branch: master
     paths:
     - ci-image/*

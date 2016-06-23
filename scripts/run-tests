@@ -4,4 +4,4 @@ set -e
 
 cd airmarshal
 
-go test
+make test
