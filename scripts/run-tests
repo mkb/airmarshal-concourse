@@ -4,4 +4,4 @@ set -e
 
 cd airmarshal
 
-echo "Your tests here."
+go test

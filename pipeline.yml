@@ -16,7 +16,7 @@ jobs:
     - task: run-tests
       config:
         platform: linux
-        image: docker:///clutteredraisins/airmarshal-pipeline
+        image: docker:///starkandwaynebot/airmarshal-pipeline
         inputs:
         - { name: airmarshal }
         - { name: airmarshal-concourse }
@@ -42,7 +42,7 @@ jobs:
     - task: run-tests
       config:
         platform: linux
-        image: docker:///clutteredraisins/airmarshal-pipeline
+        image: docker:///starkandwaynebot/airmarshal-pipeline
         inputs:
         - { name: airmarshal }
         - { name: airmarshal-concourse }
@@ -95,6 +95,6 @@ resources:
   type: docker-image
   source:
     email: {{docker-hub-email}}
-    username: clutteredraisins
+    username: starkandwaynebot
     password: {{docker-hub-password}}
-    repository: clutteredraisins/airmarshal-pipeline
+    repository: starkandwaynebot/airmarshal-pipeline
