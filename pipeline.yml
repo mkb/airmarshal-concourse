@@ -66,7 +66,8 @@ resources:
 - name: git-airmarshal
   type: git
   source:
-    uri: https://github.com/starkandwayne/airmarshal.git
+    uri: git@github.com:mkb/airmarshal.git
+    private_key: {{private-key}}
     branch: master
 
 - name: git-airmarshal-dev
