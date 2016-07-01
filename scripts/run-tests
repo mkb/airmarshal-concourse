@@ -3,5 +3,6 @@
 set -e
 
 cd airmarshal
+export GOPATH=${GOPATH}:${PWD}
 
 make test
