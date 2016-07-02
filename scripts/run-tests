@@ -4,7 +4,7 @@ set -e
 
 cd airmarshal
 mkdir -p /root/go/src/github.com/mkb
-ln -s ../airmarshal /root/go/src/github.com/mkb
+ln -s ${PWD} /root/go/src/github.com/mkb
 export GOPATH=${GOPATH}:${PWD}
 
 make test
